@@ -60,7 +60,8 @@ public:
 
   bool isEmpty() const
   {
-    throw std::runtime_error("TODO");
+    return true;
+    //throw std::runtime_error("TODO");
   }
 
   mapped_type& operator[](const key_type& key)

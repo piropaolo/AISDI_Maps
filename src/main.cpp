@@ -4,7 +4,7 @@
 
 #include "TreeMap.h"
 
-namespace
+/*namespace
 {
 
 template <typename K, typename V>
@@ -23,5 +23,10 @@ int main(int argc, char** argv)
   const std::size_t repeatCount = argc > 1 ? std::atoll(argv[1]) : 10000;
   for (std::size_t i = 0; i < repeatCount; ++i)
     perfomTest();
+  return 0;
+}*/
+
+int main()
+{
   return 0;
 }

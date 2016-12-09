@@ -25,8 +25,30 @@ public:
   using iterator = Iterator;
   using const_iterator = ConstIterator;
 
-  HashMap()
-  {}
+private:
+  struct HashNode
+  {
+    value_type data;
+    HashNode *prev;
+    HashNode *next;
+    HashNode(key_type k, mapped_type m) : data(std::make_pair(k, m)), prev(nullptr), next(nullptr) {}
+    HashNode(key_type k, mapped_type m, HashNode *prev) : HashNode (k, m) { this->prev = prev; }
+  };
+
+  HashNode **table;
+  size_type SIZE;
+  const size_type TABLE_SIZE;
+
+  size_t hashFunction(const key_type& key) const
+  {
+    return std::hash<key_type>()(key) % TABLE_SIZE;
+  }
+
+public:
+  HashMap() : table(nullptr), SIZE(0), TABLE_SIZE(69)
+  {
+    table = new HashNode *[TABLE_SIZE]{nullptr};
+  }
 
   HashMap(std::initializer_list<value_type> list)
   {
@@ -60,13 +82,38 @@ public:
 
   bool isEmpty() const
   {
-    throw std::runtime_error("TODO");
+    return !SIZE;
+    //throw std::runtime_error("TODO");
   }
 
   mapped_type& operator[](const key_type& key)
   {
-    (void)key;
-    throw std::runtime_error("TODO");
+    size_t hashValue = hashFunction(key);
+    HashNode *node = table[hashValue];
+
+    if (node == nullptr)
+    {
+      table[hashValue] = new HashNode(key, mapped_type());
+      node = table[hashValue];
+      ++SIZE;
+    }
+    else if (node->data.first != key)
+    {
+      while(node->next != nullptr)
+      {
+        if (node->next->data.first == key)  break;
+        else node = node->next;
+      }
+      if (node->next == nullptr)
+      {
+        node->next = new HashNode(key, mapped_type(), node);
+        ++SIZE;
+      }
+      node = node->next;
+    }
+    return node->data.second;
+    //(void)key;
+    //throw std::runtime_error("TODO");
   }
 
   const mapped_type& valueOf(const key_type& key) const
