@@ -34,14 +34,14 @@ void performTest(std::size_t n)
 
   start = std::chrono::system_clock::now();
   for (auto it = keys.begin(); it !=  keys.end(); ++it)
-    map2[*it] = "DONE";
+    map[*it] = "DONE";
   end = std::chrono::system_clock::now();
   std::chrono::duration<double> elapsed_seconds = end-start;
   std::cout << "TreeMap   Add time:       " << elapsed_seconds.count() << "s\n";
 
   start = std::chrono::system_clock::now();
   for (auto it = keys.begin(); it !=  keys.end(); ++it)
-    map[*it] = "DONE";
+    map2[*it] = "DONE";
   end = std::chrono::system_clock::now();
   elapsed_seconds = end-start;
   std::cout << "HashMap   Add time:       " << elapsed_seconds.count() << "s\n";
